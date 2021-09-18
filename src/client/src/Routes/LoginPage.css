@@ -1,0 +1,36 @@
+.loginpage {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-login {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.loginpage > form > p {
+  font-size: 3em;
+}
+
+.loginpage > form > div > input {
+  font-size: 2em;
+  outline: none;
+}
+
+.loginpage > form > div > button {
+  font-size: 2em;
+  background-color: var(--primary);
+  color: var(--onprimray);
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  margin-left: 10px;
+}
+
+.loginpage > form > div > button:hover {
+  cursor: pointer;
+}

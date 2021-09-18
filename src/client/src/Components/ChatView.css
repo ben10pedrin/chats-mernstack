@@ -1,0 +1,95 @@
+.chat-view {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* prevent scrolling */
+}
+
+.appbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  min-height: 78px;
+  background-color: var(--primary);
+}
+
+.messages {
+  overflow-y: auto;
+  word-break: break-word;
+  flex: 1;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+}
+
+.input-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.input-box > textarea {
+  flex-grow: 1;
+  resize: none;
+  outline: none;
+  font-size: 1.2em;
+}
+
+.input-box > button {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  border: none;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary);
+  color: var(--onprimray);
+}
+
+.input-box > button:hover {
+  cursor: pointer;
+}
+
+.message-box {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1.2em;
+  width: fit-content;
+  max-width: 80%;
+}
+
+.message-box-right {
+  margin-left: auto;
+  background-color: var(--primary);
+  color: var(--onprimray);
+}
+
+.message-box-left {
+  margin-right: auto;
+  background-color: var(--secondary);
+  color: var(--onsecondary);
+}
+
+.message-date {
+  font-size: 0.5em;
+  margin-left: 10px;
+}
+
+.contrastAvatar {
+  background-color: var(--onprimray);
+  color: var(--primary);
+}
+
+.contrastName {
+  color: var(--onprimray);
+}

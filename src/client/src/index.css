@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 200;
+}
+
+:root {
+  --primary: #2a93d5;
+  --lightprimary: #e5ebff;
+  --onprimray: white;
+  --secondary: #787ff6;
+  --onsecondary: white;
+  --black: black;
+  --disabled: gray;
+}

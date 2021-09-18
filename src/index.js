@@ -28,9 +28,6 @@ io.on("connection", (socket) => {
   console.log("a user connected");
 
   socket.on("message", async (content, roomId, userId) => {
-    console.log(content);
-    console.log(roomId);
-    console.log(userId);
     const user = await User.findById(userId);
     const newMessage = await new Message({
       user: user.id,

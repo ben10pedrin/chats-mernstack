@@ -10,59 +10,16 @@ a {
 }
 
 .header {
-  font-size: 2.5em;
   padding: 10px;
   height: 78px;
-  color: var(--onprimray);
-  background-color: var(--primary);
-}
-
-.list-item {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-
-.list-item:hover {
-  background-color: var(--lightprimary);
-  cursor: pointer;
-}
-
-/* Active classes */
-
-.list-item-active {
-  background-color: var(--primary);
-}
-
-.list-item-active > div {
-  background-color: var(--onprimray);
-  color: var(--primary);
-}
-
-.list-item-active > p {
   color: var(--onprimray);
-}
-
-.list-item-active:hover {
   background-color: var(--primary);
 }
 
-.avatar {
-  font-size: 1.3em;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  line-height: 45px;
-  text-align: center;
-  background-color: var(--primary);
-  color: var(--onprimray);
-}
-
-.name {
-  font-size: 1.3em;
-  margin-left: 15px;
+.header > p {
+  font-size: 2.5em;
 }

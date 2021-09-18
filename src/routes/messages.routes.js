@@ -8,7 +8,6 @@ const Room = require("../models/room");
 router.get("/messages", async (req, res) => {
   const roomId = req.query.roomId;
   const room = await Room.findById(roomId).populate("messages.user");
-  console.log(roomId);
   res.json(room.messages);
 });
 
@@ -27,7 +26,10 @@ router.get("/chats", async (req, res) => {
   // Populate roomUsers reference
   const rooms = await Room.find()
     .populate("roomUsers")
-    .find({ roomUsers: { _id: user.id } });
+    .find({
+      roomUsers: { _id: user.id },
+      messages: { $exists: true, $ne: [] },
+    });
 
   // Adding to array only users distinct to the username
   let chats = [];
@@ -56,8 +58,28 @@ router.get("/user", async (req, res) => {
     userId = user.id;
   }
 
-  console.log(userId);
   res.json({ userId: userId });
+});
+
+router.get("/contacts", async (req, res) => {
+  const userId = req.query.userId;
+  const contacts = await User.find({ _id: { $ne: userId } });
+  res.json(contacts);
+});
+
+router.post("/room", async (req, res) => {
+  const { arrayOfUsers } = req.body;
+  const room = await Room.findOne({ roomUsers: { $all: arrayOfUsers } });
+  let roomId;
+
+  if (room !== null) {
+    roomId = room.id;
+  } else {
+    const newRoom = new Room({ roomUsers: arrayOfUsers, messages: [] });
+    await newRoom.save();
+    roomId = newRoom.id;
+  }
+  res.json({ roomId });
 });
 
 module.exports = router;

@@ -18,8 +18,6 @@ const ChatView = () => {
     const fetchMessages = async () => {
       const res = await fetch(`./api/messages?roomId=${roomId}`);
       const newMessages = await res.json();
-      console.log(newMessages);
-      console.log(userId);
       setMessages(newMessages);
       scrollToBottom();
     };
@@ -29,7 +27,6 @@ const ChatView = () => {
     const newSocket = io();
 
     newSocket.on("message", (message) => {
-      console.log(message);
       setMessages((oldMessages) => [...oldMessages, message]);
       // TODO: scroll only if username == user
       scrollToBottom();

@@ -11,7 +11,7 @@ const ChatPage = () => {
       <ChatList />
       <Switch>
         <Route exact path={path}>
-          <h3>Please select a topic.</h3>
+          <h3>Please select a chat</h3>
         </Route>
         <Route path={`/:roomId`}>
           <ChatView />

@@ -2,16 +2,19 @@ import { useState, useContext } from "react";
 import "./LoginPage.css";
 import { AppContext } from "../AppContext";
 import { useHistory } from "react-router";
+import { io } from "socket.io-client";
 
 const LoginPage = () => {
   const [text, setText] = useState("");
-  const { setIsLoggedIn, setUserId } = useContext(AppContext);
+  const { setIsLoggedIn, setUserId, setSocket } = useContext(AppContext);
   let history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await fetch(`./api/user?username=${text}`);
     const { userId } = await res.json();
+    const newSocket = io({ query: { userId } });
+    setSocket(newSocket);
     setUserId(userId);
     setIsLoggedIn(true);
     setText("");

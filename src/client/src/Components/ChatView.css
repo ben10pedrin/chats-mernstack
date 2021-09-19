@@ -13,6 +13,17 @@
   background-color: var(--primary);
 }
 
+.status-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.status {
+  margin-left: 15px;
+  color: var(--onprimray);
+  font-size: 0.8em;
+}
+
 .messages {
   overflow-y: auto;
   word-break: break-word;

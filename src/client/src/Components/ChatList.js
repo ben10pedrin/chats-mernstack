@@ -7,7 +7,7 @@ import ContactModal from "./ContactModal";
 import ListItem from "./ListItem";
 
 const ChatList = () => {
-  const { userId } = useContext(AppContext);
+  const { userId, socket } = useContext(AppContext);
   const [chats, setChats] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -16,10 +16,22 @@ const ChatList = () => {
       const res = await fetch(`./api/chats?userId=${userId}`);
       const newChats = await res.json();
       setChats(newChats);
+      console.log("fetching chats");
+      console.log(newChats);
     };
 
     fetchChats();
-  }, [userId]);
+
+    socket.on("refetchChats", () => {
+      console.log("refetchChats");
+      fetchChats();
+    });
+
+    return () => {
+      console.log("off");
+      socket.off("refetchChats");
+    };
+  }, [userId, socket]);
 
   return (
     <>

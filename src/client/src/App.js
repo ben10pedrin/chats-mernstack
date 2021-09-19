@@ -8,6 +8,8 @@ import { AppContext } from "./AppContext";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState("");
+  const [socket, setSocket] = useState(null);
+
   return (
     <AppContext.Provider
       value={{
@@ -15,6 +17,8 @@ const App = () => {
         setIsLoggedIn,
         userId,
         setUserId,
+        socket,
+        setSocket,
       }}
     >
       <BrowserRouter>

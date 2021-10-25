@@ -1,0 +1,25 @@
+doc
+	{
+		roomUsers = ["Pedro", "Rocha"]
+		lastMesage = docReference
+	}
+	subcollection [
+		doc {
+			from: "Pedro"
+			content: "Hola como estas"
+			date: timestamp
+		},
+		doc{
+			from: "Rocha"
+			content: "Bien amor"
+			date: timestamp
+		},
+]
+sort by timestamp
+
+
+{
+	username: "Pedro"
+}
+
+sort by alfabetical

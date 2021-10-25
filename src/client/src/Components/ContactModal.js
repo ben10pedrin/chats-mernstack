@@ -11,7 +11,7 @@ const ContactModal = ({ setOpen }) => {
 
   useEffect(() => {
     const fetchContacts = async () => {
-      const res = await fetch(`./api/contacts?userId=${userId}`);
+      const res = await fetch(`./api/users`);
       const newContacts = await res.json();
       setContacts(newContacts);
     };
@@ -20,14 +20,12 @@ const ContactModal = ({ setOpen }) => {
   }, [setContacts, userId]);
 
   const createRoom = async (arrayOfUsers) => {
-    const res = await fetch(`./api/room`, {
+    const res = await fetch(`./api/joinRoom`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ arrayOfUsers }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(arrayOfUsers),
     });
-    const { roomId } = await res.json();
+    const roomId = await res.json();
     history.push(`/${roomId}`);
     setOpen(false);
   };

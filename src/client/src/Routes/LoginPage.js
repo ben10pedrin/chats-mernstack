@@ -11,9 +11,9 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(`./api/user?username=${text}`);
-    const { userId } = await res.json();
-    const newSocket = io({ query: { userId } });
+    const res = await fetch(`./api/user/${text}`);
+    const userId = await res.json();
+    const newSocket = io();
     setSocket(newSocket);
     setUserId(userId);
     setIsLoggedIn(true);

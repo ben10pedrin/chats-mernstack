@@ -5,62 +5,34 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../AppContext";
 
-const ChatView = () => {
+const ChatView = ({ messages, setMessages }) => {
   const [text, setText] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [typingText, setTypingText] = useState("");
   const { socket, userId } = useContext(AppContext);
   const list = useRef(null);
   let { roomId } = useParams();
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const res = await fetch(`./api/messages?roomId=${roomId}`);
+      const res = await fetch(`./api/messages/${roomId}`);
       const newMessages = await res.json();
+      console.log(newMessages);
       setMessages(newMessages);
       scrollToBottom();
     };
 
-    socket.emit("joinRequest", roomId);
-
     fetchMessages();
-
-    socket.on("message", (message) => {
-      setMessages((oldMessages) => [...oldMessages, message]);
-      // TODO: scroll only if username == user
-      scrollToBottom();
-    });
-
-    let timer;
-    socket.on("typing", (username) => {
-      setTypingText(`${username} is typing...`);
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        setTypingText("");
-      }, 500);
-    });
-
-    return () => {
-      socket.off("message");
-      socket.emit("leaveRequest", roomId);
-    };
-  }, [socket, roomId, userId]);
+  }, [roomId, setMessages]);
 
   const scrollToBottom = () => {
     list.current.scrollTop = list.current.scrollHeight;
   };
 
   const handleClick = (e) => {
+    e.preventDefault();
     const newText = text.trim();
     if (newText.length === 0) return;
-    e.preventDefault();
-    socket.emit("message", newText, roomId, userId);
+    socket.emit("new-message", { content: newText, roomId, userId });
     setText("");
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") handleClick(e);
-    socket.emit("typing", roomId, userId);
   };
 
   const formatHour = (numericDate) => {
@@ -79,7 +51,7 @@ const ChatView = () => {
         <div className="avatar contrastAvatar">P</div>
         <div className="status-container">
           <div className="name contrastName">Pedro</div>
-          {typingText && <div className="status">{typingText}</div>}
+          {/* {typingText && <div className="status">{typingText}</div>} */}
         </div>
       </div>
       <div className="messages" ref={list}>
@@ -100,11 +72,7 @@ const ChatView = () => {
           ))}
       </div>
       <div className="input-box">
-        <textarea
-          onChange={(e) => setText(e.target.value)}
-          value={text}
-          onKeyPress={handleKeyPress}
-        />
+        <textarea onChange={(e) => setText(e.target.value)} value={text} />
         <button onClick={handleClick}>
           <RiSendPlaneFill />
         </button>

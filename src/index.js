@@ -26,47 +26,20 @@ app.use("*", require("./routes/app.routes"));
 
 io.on("connection", (socket) => {
   console.log("a user connected");
-
-  const userId = socket.handshake.query.userId;
-  socket.join(userId);
-
-  socket.on("disconnect", () => {
-    socket.leave(userId);
-  });
-
-  socket.on("joinRequest", async (roomId) => {
-    socket.join(roomId);
-  });
-
-  socket.on("leaveRequest", async (roomId) => {
-    socket.leave(roomId);
-  });
-
-  socket.on("message", async (content, roomId, userId) => {
-    console.log(content);
+  socket.on("new-message", async ({ content, roomId, userId }) => {
     const user = await User.findById(userId);
-    const newMessage = await new Message({
+    let newMessage = new Message({
       user: user.id,
-      content: content,
+      content,
       date: new Date().getTime(),
-    }).populate("user");
-    const room = await Room.findById(roomId).find({
-      messages: { $exists: true, $ne: [] },
     });
-    await Room.updateOne({ _id: roomId }, { $push: { messages: newMessage } });
-    if (room.length > 0) {
-      // We're sending the message for the first time, so notify users to refetch chats
-      for (let i = 0; i < room[0].roomUsers.length; i++) {
-        const roomUser = room[0].roomUsers[i];
-        io.in(roomUser).emit("refetchChats");
-      }
-    }
-    io.in(roomId).emit("message", newMessage);
-  });
-
-  socket.on("typing", async (roomId, userId) => {
-    const { username } = await User.findById(userId);
-    socket.to(roomId).emit("typing", username);
+    const room = await Room.findByIdAndUpdate(roomId, {
+      $push: { messages: newMessage },
+    });
+    newMessage = await newMessage.populate("user");
+    room.roomUsers.forEach((roomUser) => {
+      io.emit(`new-message-${roomUser.toString()}`, newMessage, roomId);
+    });
   });
 });
 
